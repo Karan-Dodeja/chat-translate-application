@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import UserAvatar from "./UserAvatar";
-import { Session } from "inspector";
+import { Session } from "next-auth";
 import { Button } from "./ui/button";
 import { signIn } from "next-auth/react";
 
@@ -22,19 +22,21 @@ function UserButton({ session }: { session: Session | null }) {
       </Button>
     );
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        <UserAvatar name="Karan" image="https://github.com/shadcn.png" />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>Profile</DropdownMenuItem>
-        <DropdownMenuItem>Billing</DropdownMenuItem>
-        <DropdownMenuItem>Team</DropdownMenuItem>
-        <DropdownMenuItem>Subscription</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    session && (
+      <DropdownMenu>
+        <DropdownMenuTrigger>
+          <UserAvatar name={session.user?.name} image={session.user?.image} />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem>Billing</DropdownMenuItem>
+          <DropdownMenuItem>Team</DropdownMenuItem>
+          <DropdownMenuItem>Subscription</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    )
   );
 }
 
