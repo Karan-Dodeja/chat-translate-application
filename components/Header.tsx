@@ -1,8 +1,15 @@
+import { getServerSession } from "next-auth";
 import DarkModeToggle from "./DarkModeToggle";
 import Logo from "./Logo";
 import UserButton from "./UserButton";
+import { authOptions } from "@/auth";
+import Link from "next/link";
+import { MessageSquareIcon } from "lucide-react";
 
-function Header() {
+async function Header() {
+  const session = await getServerSession(authOptions);
+  console.log(session);
+
   return (
     <header className="sticky top-0 z-50 bg-white dark:bg-gray-900">
       <nav
@@ -14,10 +21,19 @@ function Header() {
         <div className="flex-1 flex items-center justify-end space-x-4">
           {/* Lnguage Select */}
           {/* Session */}
+          {session ? (
+            <>
+              <Link href={"/chat"} prefetch={false}>
+                <MessageSquareIcon className="text-black dark:text-white" />
+              </Link>
+            </>
+          ) : (
+            <Link href={"/pricing"}>Pricing</Link>
+          )}
           {/* DarkMode */}
           <DarkModeToggle />
           {/* User button */}
-          <UserButton />
+          <UserButton session={session} />
         </div>
       </nav>
       {/* Upgrade Banner */}
