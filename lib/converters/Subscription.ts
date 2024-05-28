@@ -49,8 +49,7 @@ const subscriptionConvertor: FirestoreDataConverter<Subscription> = {
   },
 };
 
-export const subscriptionRef = (userId: string) => {
+export const subscriptionRef = (userId: string) =>
   collection(db, "customers", userId, "subscriptions").withConverter(
     subscriptionConvertor
   );
-};
