@@ -5,10 +5,16 @@ import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import LoadingSpinner from "./ui/LoadingSpinner";
+import { useSubscriptionStore } from "@/store/store";
+import ManageAccountButton from "./ui/ManageAccountButton";
 
 const CheckoutButton = () => {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
+  const subscription = useSubscriptionStore((state) => state.subscription);
+  const isLoadingSubscription = subscription === undefined;
+  const isSubscribed =
+    subscription?.status === "active" && subscription?.role === "pro";
   const createCHeckoutSession = async () => {
     if (!session?.user.id) return;
     setLoading(true);
@@ -45,7 +51,13 @@ const CheckoutButton = () => {
     cursor-pointer disabled:opacity-80 disabled:bg-indigo-600/50 disabled:text-white 
     disabled:cursor-default"
       >
-        {loading ? <LoadingSpinner /> : "Sign up"}
+        {isSubscribed ? (
+          <ManageAccountButton />
+        ) : isLoadingSubscription || loading ? (
+          <LoadingSpinner />
+        ) : (
+          <button onClick={() => createCHeckoutSession()}>Sign up</button>
+        )}
       </button>
     </div>
   );
