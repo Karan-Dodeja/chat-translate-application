@@ -31,6 +31,6 @@ interface SubscriptionState {
   setSubscription: (subscription: Subscription | null) => void;
 }
 export const useSubscriptionStore = create<SubscriptionState>((set) => ({
-  subscription: null,
+  subscription: undefined,
   setSubscription: (subscription: Subscription | null) => set({ subscription }),
 }));

@@ -4,6 +4,7 @@ import { db } from "@/firebase";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
+import LoadingSpinner from "./ui/LoadingSpinner";
 
 const CheckoutButton = () => {
   const { data: session } = useSession();
@@ -44,7 +45,7 @@ const CheckoutButton = () => {
     cursor-pointer disabled:opacity-80 disabled:bg-indigo-600/50 disabled:text-white 
     disabled:cursor-default"
       >
-        {loading ? "loading..." : "Sign up"}
+        {loading ? <LoadingSpinner /> : "Sign up"}
       </button>
     </div>
   );
