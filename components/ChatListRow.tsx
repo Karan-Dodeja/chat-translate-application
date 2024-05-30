@@ -6,11 +6,13 @@ import { limitedSortedMessagesref, Message } from "@/lib/converters/Message";
 import UserAvatar from "./UserAvatar";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useLanguageStore } from "@/store/store";
 
 function ChatListRow({ chatId }: { chatId: string }) {
   const [messages, loading, error] = useCollectionData<Message>(
     limitedSortedMessagesref(chatId)
   );
+  const language = useLanguageStore((state) => state.language);
   const { data: session } = useSession();
   function prettyUUID(n = 4) {
     return chatId.substring(0, n);
