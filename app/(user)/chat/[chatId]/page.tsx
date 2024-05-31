@@ -1,5 +1,6 @@
 import { authOptions } from "@/auth";
 import ChatInput from "@/components/ChatInput";
+import ChatMembersBadges from "@/components/ChatMembersBadges";
 import ChatMessages from "@/components/ChatMessages";
 import { getServerSession } from "next-auth";
 
@@ -13,6 +14,7 @@ async function ChatPage({ params: { chatId } }: Props) {
   const session = await getServerSession(authOptions);
   return (
     <>
+      <ChatMembersBadges chatId={chatId} />
       <div className="flex-1">
         <ChatMessages
           chatId={chatId}
